@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
+import { AuthDto } from "./dto";
 
 @Injectable({})
 
@@ -9,7 +10,7 @@ export class AuthService {
 
     }
 
-    signin() {
+    signin(dto: AuthDto) {
         return {
             statusCode: 200,
             message: 'SignIn Successfully',
@@ -17,7 +18,7 @@ export class AuthService {
         };
     }
 
-    signup() {
+    signup(dto: AuthDto) {
         return {
             statusCode: 200,
             message: 'SignUp Successfully',
