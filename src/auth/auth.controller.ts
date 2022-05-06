@@ -1,9 +1,7 @@
-import { Module } from "@nestjs/common";
+import { Controller, Module } from "@nestjs/common";
 
-@Module({
-    
-})
 
-export class AuthModule {
+@Controller({})
+export class AuthController {
 
 }
