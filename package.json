@@ -1,8 +1,8 @@
 {
-  "name": "mcrae",
+  "name": "printing-app",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "aksiplus-teknologi",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

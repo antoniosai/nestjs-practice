@@ -1,4 +1,5 @@
-import { SignupDto } from "./signup.dto";
-import { SigninDto } from "./signin.dto";
+import { SignupDTO } from "./signup.dto";
+import { SigninDTO } from "./signin.dto";
+import { ForgetPasswordDTO } from "./forget-password.dto";
 
-export { SignupDto, SigninDto, };
+export { SignupDTO, SigninDTO, ForgetPasswordDTO};

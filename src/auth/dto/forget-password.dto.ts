@@ -1,11 +1,7 @@
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 
-export class SigninDTO {
+export class ForgetPasswordDTO {
     @IsEmail()
     @IsNotEmpty()
     email: string;
-
-    @IsString()
-    @IsNotEmpty()
-    password: string;
 }

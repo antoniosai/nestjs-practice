@@ -1,85 +1,96 @@
-import { ForbiddenException, Injectable, UnprocessableEntityException } from "@nestjs/common";
-import { PrismaService } from "src/prisma/prisma.service";
-import { SigninDto, SignupDto } from "./dto";
+import {
+	ForbiddenException,
+	Injectable,
+	UnprocessableEntityException
+} from "@nestjs/common";
+import {
+	PrismaService
+} from "src/prisma/prisma.service";
+import {
+	ForgetPasswordDTO,
+	SigninDTO,
+	SignupDTO
+
+} from "./dto";
 import * as argon from "argon2";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import {
+	PrismaClientKnownRequestError
+} from "@prisma/client/runtime";
 @Injectable({})
 
 export class AuthService {
 
-    constructor(private prisma: PrismaService) {
+	constructor(private prisma: PrismaService) {
 
-    }
+	}
 
-    async signin(dto: SigninDto) {
+	async signin(dto: SigninDTO) {
 
-        // find user by email
-        try {
-            const user = await this.prisma.user.findFirst({
-                where: {
-                    email: dto.email
-                }
-            });
+		// find user by email
+		try {
+			const user = await this.prisma.user.findFirst({
+				where: {
+					email: dto.email
+				}
+			});
 
-            if(!user) throw new UnprocessableEntityException('Credentials Incorrect');
+			if (!user) throw new UnprocessableEntityException('Credentials Incorrect');
 
-            const pwMatches = await argon.verify(user.hash, dto.password);
+			const pwMatches = await argon.verify(user.hash, dto.password);
 
-            if(!pwMatches) {
-                throw new ForbiddenException('Credentials Incorrect');
-            }
+			if (!pwMatches) {
+				throw new ForbiddenException('Credentials Incorrect');
+			}
 
-            delete user.hash;
+			delete user.hash;
 
-            return {
-                statusCode: 200,
-                message: 'SignIn Successfully',
-                data: null,
-            };
+			return {
+				message: 'SignIn Successfully',
+				data: user,
+			};
 
-        } catch (error) {
-            throw error;
-        }
-        // if user doesnt exists throw exception
+		} catch (error) {
+			throw error;
+		}
+	}
 
-        // send back to user
+	async signup(dto: SignupDTO) {
+		// generate the hash
+		const hash = await argon.hash(dto.password);
 
-    }
+		try {
+			// save the new user in the db
+			const user = await this.prisma.user.create({
+				data: {
+					email: dto.email,
+					firstName: dto.firstName,
+					lastName: dto.lastName,
+					hash
+				}
+			});
 
-    async signup(dto: SignupDto) {
+			delete user.hash;
 
+			return {
+				statusCode: 200,
+				message: 'SignUp Successfully',
+				data: user,
+			};
+		} catch (error) {
+			if (error instanceof PrismaClientKnownRequestError) {
+				if (error.code === 'P2002') {
+					throw new ForbiddenException('Credentials invalid');
+				}
+			}
+			throw error;
+		}
+	}
 
-        // generate the hash
-        const hash = await argon.hash(dto.password);
+	async forgetPassword(dto: ForgetPasswordDTO) {
+		try {
 
-        try {
-            // save the new user in the db
-            const user = await this.prisma.user.create({
-                data: {
-                    email: dto.email,
-                    firstName: dto.firstName,
-                    lastName: dto.lastName,
-                    hash
-                }
-            });
-
-            delete user.hash;
-
-            // return th esaved user
-
-            return {
-                statusCode: 200,
-                message: 'SignUp Successfully',
-                data: user,
-            };
-        } catch (error) {
-            if(error instanceof PrismaClientKnownRequestError) {
-                if (error.code === 'P2002') {
-                    throw new ForbiddenException('Credentials invalid');
-                }
-            }
-            throw error;
-        }
-
-    }
+		} catch (error) {
+			throw new UnprocessableEntityException('Can\'t Process');
+		}
+	}
 }
