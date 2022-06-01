@@ -8,11 +8,13 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(
+  Strategy,
+) {
   constructor(
-		config: ConfigService, 
-		private prisma: PrismaService,
-	) {
+    config: ConfigService,
+    private prisma: PrismaService,
+  ) {
     super({
       jwtFromRequest:
         ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -20,13 +22,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: { sub: number, email: string }) {
-		const user = await this.prisma.user.findUnique({
-			where: {
-				id: payload.sub,
-			}
-		});
-		delete user.hash;
-		return user;
-	};
+  async validate(payload: {
+    sub: number;
+    email: string;
+  }) {
+    const user =
+      await this.prisma.user.findUnique({
+        where: {
+          id: payload.sub,
+        },
+      });
+    delete user.hash;
+    return user;
+  }
 }

@@ -1,4 +1,4 @@
-import { JwtGuard } from "./jwt.guard";
-import { AdminGuard } from "./admin.guard";
+import { JwtGuard } from './jwt.guard';
+import { AdminGuard } from './admin.guard';
 
-export {JwtGuard, AdminGuard};
+export { JwtGuard, AdminGuard };
