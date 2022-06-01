@@ -7,7 +7,6 @@ const prisma = new PrismaClient();
 async function main() {
   await prisma.role.createMany({ data: roles });
   await prisma.user.createMany({ data: users });
-  
 }
 
 main()
