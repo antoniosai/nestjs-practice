@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { prisma, PrismaClient } from '@prisma/client';
+import {
+  prisma,
+  PrismaClient,
+} from '@prisma/client';
 import { env } from 'process';
 
 @Injectable()
@@ -13,6 +16,6 @@ export class PrismaService extends PrismaClient {
         },
       },
     });
-		// prisma.user.findMany()
+    // prisma.user.findMany()
   }
 }

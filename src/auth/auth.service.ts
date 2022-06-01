@@ -19,9 +19,9 @@ import { ConfigService } from '@nestjs/config';
 @Injectable({})
 export class AuthService {
   constructor(
-    private prisma: PrismaService, 
+    private prisma: PrismaService,
     private jwt: JwtService,
-    private config: ConfigService
+    private config: ConfigService,
   ) {}
 
   async signin(dto: SigninDTO) {
@@ -51,7 +51,7 @@ export class AuthService {
       }
 
       delete user.hash;
-      
+
       return this.signToken(user.id, user.email);
     } catch (error) {
       throw error;
@@ -86,7 +86,9 @@ export class AuthService {
         PrismaClientKnownRequestError
       ) {
         if (error.code === 'P2002') {
-          throw new ForbiddenException('Credentials invalid');
+          throw new ForbiddenException(
+            'Credentials invalid',
+          );
         }
       }
       throw error;
@@ -96,11 +98,16 @@ export class AuthService {
   async forgetPassword(dto: ForgetPasswordDTO) {
     try {
     } catch (error) {
-      throw new UnprocessableEntityException("Can't Process");
+      throw new UnprocessableEntityException(
+        "Can't Process",
+      );
     }
   }
 
-  async signToken(userId: number, email: string): Promise<{access_token: string}> {
+  async signToken(
+    userId: number,
+    email: string,
+  ): Promise<{ access_token: string }> {
     const payload = {
       sub: userId,
       email,
@@ -108,14 +115,16 @@ export class AuthService {
 
     const secret = this.config.get('JWT_SECRET');
 
-    const token = await this.jwt.signAsync(payload, {
-      expiresIn: '15m',
-      secret: secret,
-    });
+    const token = await this.jwt.signAsync(
+      payload,
+      {
+        expiresIn: '15m',
+        secret: secret,
+      },
+    );
 
     return {
       access_token: token,
     };
-
   }
 }
