@@ -5,19 +5,22 @@ import {
   Patch,
   Post,
   Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { GetUser } from 'src/auth/decorator/get-user.decorator';
 import { JwtGuard } from 'src/auth/guard';
-import { UpdateProfileDTO } from './dto';
+import { UpdatePasswordDTO, UpdateProfileDTO } from './dto';
 import { ProfileService } from './profile.service';
 
 @Controller('profile')
 @UseGuards(JwtGuard)
 export class ProfileController {
   constructor(
-    private ProfileService: ProfileService,
+    private profileService: ProfileService,
   ) {}
 
   @Get()
@@ -32,9 +35,27 @@ export class ProfileController {
     @GetUser('id') userId: number,
     @Body() dto: UpdateProfileDTO,
   ) {
-    return this.ProfileService.editUser(
+    return this.profileService.editUser(
       userId,
       dto,
     );
+  }
+
+  @Post('avatar')
+  @UseInterceptors(FileInterceptor('avatar'))
+  updateAvatar(
+    @GetUser('id') userId: number,
+    @UploadedFile() avatar: Express.Multer.File
+  ) {
+    return this.profileService.updateAvatar(userId, avatar);
+  }
+
+  @Patch('password')
+  @UseInterceptors(FileInterceptor('avatar'))
+  updatePassword(
+    @GetUser('id') userId: number,
+    @Body() dto: UpdatePasswordDTO
+  ) {
+    return this.profileService.updatePassword(userId, dto);
   }
 }

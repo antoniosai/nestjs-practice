@@ -17,9 +17,6 @@ export class AdminGuard extends AuthGuard(
 
   handleRequest(err: any, user: any, info: any) {
     try {
-      console.log('Error => ', err);
-      console.log('User => ', user);
-      console.log('Info => ', info);
       if (err || !user) {
         throw err || new UnauthorizedException();
       }
