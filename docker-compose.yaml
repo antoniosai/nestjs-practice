@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: mysecretpassword
-      POSTGRES_DB: mcrae
+      POSTGRES_DB: printing_app
     networks:
       - aksiplus
 networks:
