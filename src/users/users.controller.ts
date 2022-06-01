@@ -1,10 +1,10 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-@Controller('users')
+@Controller({ path: 'users', version: '1'})
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
@@ -16,12 +16,14 @@ export class UsersController {
 
   @MessagePattern('findAllUsers')
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query() params: { page: number, perPage: number, searchTerm?: string }) {
+    return this.usersService.findAll(params);
   }
 
   @MessagePattern('findOneUser')
-  findOne(@Payload() id: number) {
+  @Get('/:id')
+  findOne(@Param() param: any) {
+    const { id } = param;
     return this.usersService.findOne(id);
   }
 
