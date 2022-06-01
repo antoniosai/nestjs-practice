@@ -1,13 +1,13 @@
 import {
   PrismaClient
 } from '@prisma/client';
-import { roles } from './seeds';
+import { roles, users } from './seeds';
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.role.createMany({
-    data: roles,
-  })
+  await prisma.role.createMany({ data: roles });
+  await prisma.user.createMany({ data: users });
+  
 }
 
 main()
