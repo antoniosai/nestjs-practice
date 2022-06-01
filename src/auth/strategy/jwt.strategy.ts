@@ -33,7 +33,7 @@ export class JwtStrategy extends PassportStrategy(
         },
         include: {
           role: true,
-        }
+        },
       });
     delete user.hash;
     return user;

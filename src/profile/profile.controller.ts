@@ -16,7 +16,9 @@ import { ProfileService } from './profile.service';
 @Controller('profile')
 @UseGuards(JwtGuard)
 export class ProfileController {
-  constructor(private ProfileService: ProfileService) {}
+  constructor(
+    private ProfileService: ProfileService,
+  ) {}
 
   @Get()
   profile(@Req() req: Request) {
@@ -30,6 +32,9 @@ export class ProfileController {
     @GetUser('id') userId: number,
     @Body() dto: UpdateProfileDTO,
   ) {
-    return this.ProfileService.editUser(userId, dto);
+    return this.ProfileService.editUser(
+      userId,
+      dto,
+    );
   }
 }
