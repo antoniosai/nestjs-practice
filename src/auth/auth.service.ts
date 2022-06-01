@@ -16,6 +16,7 @@ import {
 } from './dto';
 import { config } from 'process';
 import { ConfigService } from '@nestjs/config';
+import { timeStamp } from 'console';
 @Injectable({})
 export class AuthService {
   constructor(
@@ -69,6 +70,7 @@ export class AuthService {
           email: dto.email,
           firstName: dto.firstName,
           lastName: dto.lastName,
+          roleId: dto.roleId,
           hash,
         },
       });
@@ -118,9 +120,7 @@ export class AuthService {
     const token = await this.jwt.signAsync(
       payload,
       {
-        expiresIn: this.config.get(
-          'JWT_EXPIRES_IN',
-        ),
+        expiresIn: this.config.get('JWT_EXPIRES_IN'),
         secret: secret,
       },
     );
