@@ -17,6 +17,7 @@ import {
 import { config } from 'process';
 import { ConfigService } from '@nestjs/config';
 import { timeStamp } from 'console';
+import { User } from '@prisma/client';
 @Injectable({})
 export class AuthService {
   constructor(
@@ -32,6 +33,9 @@ export class AuthService {
         await this.prisma.user.findFirst({
           where: {
             email: dto.email,
+          },
+          include: {
+            role: true,
           },
         });
 
@@ -53,7 +57,7 @@ export class AuthService {
 
       delete user.hash;
 
-      return this.signToken(user.id, user.email);
+      return this.signToken(user);
     } catch (error) {
       throw error;
     }
@@ -107,12 +111,14 @@ export class AuthService {
   }
 
   async signToken(
-    userId: number,
-    email: string,
-  ): Promise<{ access_token: string }> {
+    user: User,
+  ): Promise<{ access_token: string, message: string, user: User }> {
+
+    ;
+
     const payload = {
-      sub: userId,
-      email,
+      sub: user.id,
+      user,
     };
 
     const secret = this.config.get('JWT_SECRET');
@@ -129,6 +135,8 @@ export class AuthService {
 
     return {
       access_token: token,
+      message: 'Successfully Signed-In',
+      user: user,
     };
   }
 }
