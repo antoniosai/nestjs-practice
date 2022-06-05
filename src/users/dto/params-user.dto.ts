@@ -1,5 +1,5 @@
 import {
-  IsNotEmpty,
+  IsNotEmpty, IsOptional,
 } from 'class-validator';
 
 export class ParamsUserDTO {
@@ -8,4 +8,7 @@ export class ParamsUserDTO {
 
   @IsNotEmpty()
   perPage: number;
+
+  @IsOptional()
+  searchTerm: string;
 }
