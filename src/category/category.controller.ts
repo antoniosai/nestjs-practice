@@ -47,7 +47,6 @@ export class CategoryController {
     @Param() param: { id: number },
     @Payload() dto: UpdateCategoryDTO,
   ) {
-    return dto;
     return this.categoryService.update(
       param.id,
       dto,
