@@ -1,8 +1,7 @@
 import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDTO, UpdateUserDTO, ParamsUserDTO } from './dto';
 
 @Controller({ path: 'users', version: '1'})
 export class UsersController {
@@ -10,13 +9,13 @@ export class UsersController {
 
   @MessagePattern('createUser')
   @Post()
-  create(@Payload() dto: CreateUserDto) {
+  create(@Payload() dto: CreateUserDTO) {
     return this.usersService.create(dto);
   }
 
   @MessagePattern('findAllUsers')
   @Get()
-  findAll(@Query() params: { page: number, perPage: number, searchTerm?: string }) {
+  findAll(@Query() params: ParamsUserDTO) {
     return this.usersService.findAll(params);
   }
 
@@ -28,7 +27,7 @@ export class UsersController {
   }
 
   @MessagePattern('updateUser')
-  update(@Payload() dto: UpdateUserDto) {
+  update(@Payload() dto: UpdateUserDTO) {
     return this.usersService.update(dto.id, dto);
   }
 

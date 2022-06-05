@@ -1,10 +1,8 @@
 import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CategoryService } from './category.service';
-import { CreateCategoryDTO } from './dto/create-user.dto';
-import { UpdateCategoryDTO } from './dto/update-user.dto';
-
-@Controller({ path: 'users', version: '1'})
+import { CreateCategoryDTO, UpdateCategoryDTO, ParamsCategoryDTO } from './dto';
+@Controller({ path: 'categories', version: '1'})
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
@@ -16,7 +14,7 @@ export class CategoryController {
 
   @MessagePattern('findAllUsers')
   @Get()
-  findAll(@Query() params: { page: number, perPage: number, searchTerm?: string }) {
+  findAll(@Query() params: ParamsCategoryDTO) {
     return this.categoryService.findAll(params);
   }
 

@@ -64,7 +64,7 @@ export class CategoryService {
     }
   }
 
-  update(id: number, updateUserDto: UpdateCategoryDTO) {
+  update(id: number, UpdateUserDTO: UpdateCategoryDTO) {
     return `This action updates a #${id} user`;
   }
 
