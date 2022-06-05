@@ -12,5 +12,4 @@ export class UpdateProfileDTO {
   @IsString()
   @IsOptional()
   nama?: string;
-
 }

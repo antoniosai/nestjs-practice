@@ -17,5 +17,5 @@ export class CreateCategoryDTO {
 
   @IsString()
   @IsOptional()
-  deskripsi: string; 
+  deskripsi: string;
 }

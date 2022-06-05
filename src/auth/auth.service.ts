@@ -109,9 +109,11 @@ export class AuthService {
     }
   }
 
-  async signToken(
-    user: User,
-  ): Promise<{ access_token: string, message: string, user: User }> {
+  async signToken(user: User): Promise<{
+    access_token: string;
+    message: string;
+    user: User;
+  }> {
     const payload = {
       sub: user.id,
       user,

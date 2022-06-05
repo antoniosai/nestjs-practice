@@ -10,12 +10,17 @@ export class UpdatePasswordDTO {
   @IsString()
   @MinLength(4)
   @MaxLength(20)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z]).*$/, {message: 'password too weak'})
+  @Matches(
+    /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z]).*$/,
+    { message: 'password too weak' },
+  )
   password: string;
 
   @IsString()
   @MinLength(4)
   @MaxLength(20)
-  @Match('password', {message: "Password doesn't same"})
+  @Match('password', {
+    message: "Password doesn't same",
+  })
   passwordConfirm: string;
 }

@@ -1,11 +1,26 @@
-import { Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
+import {
+  MessagePattern,
+  Payload,
+} from '@nestjs/microservices';
 import { UsersService } from './users.service';
-import { CreateUserDTO, UpdateUserDTO, ParamsUserDTO } from './dto';
+import {
+  CreateUserDTO,
+  UpdateUserDTO,
+  ParamsUserDTO,
+} from './dto';
 
-@Controller({ path: 'users', version: '1'})
+@Controller({ path: 'users', version: '1' })
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+  ) {}
 
   @MessagePattern('createUser')
   @Post()

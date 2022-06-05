@@ -1,5 +1,6 @@
 import {
-  IsNotEmpty, IsOptional,
+  IsNotEmpty,
+  IsOptional,
 } from 'class-validator';
 
 export class ParamsCategoryDTO {

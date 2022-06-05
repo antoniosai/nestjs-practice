@@ -1,10 +1,26 @@
-import { Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import {
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
+import {
+  MessagePattern,
+  Payload,
+} from '@nestjs/microservices';
 import { CategoryService } from './category.service';
-import { CreateCategoryDTO, UpdateCategoryDTO, ParamsCategoryDTO } from './dto';
-@Controller({ path: 'categories', version: '1'})
+import {
+  CreateCategoryDTO,
+  UpdateCategoryDTO,
+  ParamsCategoryDTO,
+} from './dto';
+@Controller({ path: 'categories', version: '1' })
 export class CategoryController {
-  constructor(private categoryService: CategoryService) {}
+  constructor(
+    private categoryService: CategoryService,
+  ) {}
 
   @MessagePattern('createCategory')
   @Post()
@@ -27,12 +43,19 @@ export class CategoryController {
 
   @MessagePattern('updateCategory')
   @Patch('/:id')
-  update(@Param() param: { id: number }, @Payload() dto: UpdateCategoryDTO) {
-    return this.categoryService.update(param.id, dto);
+  update(
+    @Param() param: { id: number },
+    @Payload() dto: UpdateCategoryDTO,
+  ) {
+    return dto;
+    return this.categoryService.update(
+      param.id,
+      dto,
+    );
   }
 
   @MessagePattern('removeCategory')
-  remove(@Payload() id: number) {
-    return this.categoryService.remove(id);
+  remove(@Param() param: { id: number }) {
+    return this.categoryService.remove(param.id);
   }
 }

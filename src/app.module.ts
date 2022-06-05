@@ -15,7 +15,7 @@ import { CategoryModule } from './category/category.module';
     ProfileModule,
     PrismaModule,
     UsersModule,
-    CategoryModule
+    CategoryModule,
   ],
   // controllers: [],
   // providers: [],
