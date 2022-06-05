@@ -39,6 +39,7 @@ model Kategori {
   nama      String
   deskripsi String?
   produk    Produk[]
+  bahan     Bahan[]
 
   @@map("kategori")
 }
@@ -48,20 +49,50 @@ model Satuan {
   slug   String   @unique
   nama   String
   produk Produk[]
+  bahan  Bahan[]
 
   @@map("satuan")
 }
 
 model Produk {
-  id         Int      @id @default(autoincrement())
-  stok       Int      @default(0)
+  id         Int             @id @default(autoincrement())
+  stok       Int             @default(0)
+  slug       String          @unique
   nama       String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  kategori   Kategori @relation(fields: [kategoriId], references: [id])
-  satuan     Satuan   @relation(fields: [satuanId], references: [id])
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  kategori   Kategori        @relation(fields: [kategoriId], references: [id])
+  satuan     Satuan          @relation(fields: [satuanId], references: [id])
+  bahan      BahanOnProduk[]
   kategoriId Int
   satuanId   Int
 
   @@map("produk")
+}
+
+model Bahan {
+  id         Int             @id @default(autoincrement())
+  stok       Int             @default(0)
+  slug       String          @unique
+  nama       String
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  kategori   Kategori        @relation(fields: [kategoriId], references: [id])
+  satuan     Satuan          @relation(fields: [satuanId], references: [id])
+  produk     BahanOnProduk[]
+  kategoriId Int
+  satuanId   Int
+
+  @@map("bahan")
+}
+
+model BahanOnProduk {
+
+  bahan    Bahan  @relation(fields: [bahanId], references: [id])
+  produk   Produk @relation(fields: [produkId], references: [id])
+  bahanId  Int
+  produkId Int
+
+  @@id([bahanId, produkId])
+  @@map("bahan_on_produk")
 }
