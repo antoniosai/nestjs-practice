@@ -2,27 +2,20 @@ import {
   IsEmail,
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
 export class CreateCategoryDTO {
-  @IsEmail()
+  @IsString()
   @IsNotEmpty()
-  email: string;
+  nama: string;
 
   @IsString()
   @IsNotEmpty()
-  password: string;
+  slug: string;
 
   @IsString()
-  @IsNotEmpty()
-  firstName: string;
-
-  @IsString()
-  @IsNotEmpty()
-  lastName: string;
-
-  @IsInt()
-  @IsNotEmpty()
-  roleId: number;
+  @IsOptional()
+  deskripsi: string; 
 }

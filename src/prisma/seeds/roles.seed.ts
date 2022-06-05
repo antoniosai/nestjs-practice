@@ -1,22 +1,32 @@
 export const roles = [
   {
     slug: 'administrator',
-    name: 'Administrator',
-    description: 'Administrator Role',
+    nama: 'Administrator',
+    deskripsi: 'Administrator Role',
   },
   {
     slug: 'operator-setting',
-    name: 'Operator Setting',
-    description: 'Operator Setting Role',
+    nama: 'Operator Setting',
+    deskripsi: 'Operator Setting Role',
   },
   {
     slug: 'operator-mesin',
-    name: 'Operator Mesin',
-    description: 'Operator Mesin Role',
+    nama: 'Operator Mesin',
+    deskripsi: 'Operator Mesin Role',
   },
   {
     slug: 'operator-finishing',
-    name: 'Operator Finishing',
-    description: 'Operator Finishing Role',
+    nama: 'Operator Finishing',
+    deskripsi: 'Operator Finishing Role',
+  },
+  {
+    slug: 'gudang',
+    nama: 'Admin Gudang',
+    deskripsi: 'Administrator Gudang',
+  },
+  {
+    slug: 'cs',
+    nama: 'Customer Service',
+    deskripsi: 'Customer Service',
   },
 ];

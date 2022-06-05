@@ -11,9 +11,6 @@ export class UpdateProfileDTO {
 
   @IsString()
   @IsOptional()
-  firstName?: string;
+  nama?: string;
 
-  @IsString()
-  @IsOptional()
-  lastName?: string;
 }
