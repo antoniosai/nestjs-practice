@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Kategori } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCategoryDTO } from './dto/create-category.dto';
 import { UpdateCategoryDTO } from './dto/update-category.dto';
@@ -17,21 +18,12 @@ export class CategoryService {
   async findAll(params: { page: number, perPage: number, searchTerm?: string }) {
     try {
       const { page, perPage } = params;
-      const users = await this.prisma.user.findMany({
+      const kategori = await this.prisma.kategori.findMany({
         select: {
           id: true,
           nama: true,
-          email: true,
-          createdAt: true,
-          updatedAt: true,
-          roleId: true,
-          role: true,
-          hash: false,
-        },
-        // skip: Number(1),
-        take: Number(perPage),
-        cursor: {
-          id: 4,
+          slug: true,
+          deskripsi: true,
         },
         
       });
@@ -39,35 +31,57 @@ export class CategoryService {
       return {
         current_page: Number(page),
         per_page: Number(perPage),
-        data: users,
+        data: kategori,
       };
     } catch(error) {
       throw error;
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<Kategori> {
     try {
-      const user = await this.prisma.user.findUnique({
+      const category = await this.prisma.kategori.findUnique({
         where: {
           id: Number(id),
         },
-        include: {
-          role: true,
-        },
       });
-      delete user.hash;
-      return user;
+      return category;
     } catch(error) {
       throw error;
     }
   }
 
-  update(id: number, UpdateUserDTO: UpdateCategoryDTO) {
-    return `This action updates a #${id} user`;
+  async update(id: number, dto: UpdateCategoryDTO): Promise<{message: string}> {
+    try {
+
+      const user = await this.prisma.kategori.update({
+        where: {
+          id: Number(id)
+        },
+        data: dto
+      });
+
+      return {
+        message: `Berhasil memperbaharui Data Kategori ${user.nama}` 
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number): Promise<{message: string}> {
+    try {
+      await this.prisma.kategori.delete({
+        where: {
+          id: Number(id),
+        },
+      });
+
+      return {
+        message: `Berhasil memperbaharui Data Kategori` 
+      };
+    } catch(error) {
+      throw error;
+    }
   }
 }
