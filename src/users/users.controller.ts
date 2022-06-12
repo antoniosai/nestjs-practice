@@ -4,6 +4,7 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   MessagePattern,
@@ -15,7 +16,9 @@ import {
   UpdateUserDTO,
   ParamsUserDTO,
 } from './dto';
+import { AdminGuard } from 'src/auth/guard';
 
+@UseGuards(AdminGuard)
 @Controller({ path: 'users', version: '1' })
 export class UsersController {
   constructor(

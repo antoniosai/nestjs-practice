@@ -12,7 +12,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { GetUser } from 'src/auth/decorator/get-user.decorator';
-import { JwtGuard } from 'src/auth/guard';
+import { AdminGuard } from 'src/auth/guard';
 import {
   UpdatePasswordDTO,
   UpdateProfileDTO,
@@ -20,7 +20,7 @@ import {
 import { ProfileService } from './profile.service';
 
 @Controller('profile')
-@UseGuards(JwtGuard)
+@UseGuards(AdminGuard)
 export class ProfileController {
   constructor(
     private profileService: ProfileService,

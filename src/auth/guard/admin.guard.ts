@@ -5,7 +5,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 
 export class AdminGuard extends AuthGuard(
-  'jwt-admin',
+  'jwt',
 ) {
   constructor() {
     super();
@@ -21,13 +21,13 @@ export class AdminGuard extends AuthGuard(
         throw err || new UnauthorizedException();
       }
 
-      if (user.role !== 'admin') {
+      if (user.role.slug !== 'administrator') {
         throw new UnauthorizedException();
       }
 
       return user;
-    } catch (error) {
-      throw new error();
+    } catch (err) {
+      throw new UnauthorizedException();
     }
   }
 }
